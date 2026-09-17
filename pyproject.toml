@@ -3,8 +3,8 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "py-goodreads"
-version = "0.1.0"
+name = "goodreads-async"
+version = "0.1.1"
 description = "Unofficial async Python client for public Goodreads reading data"
 readme = "README.md"
 requires-python = ">=3.11"

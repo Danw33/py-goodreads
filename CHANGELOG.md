@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-09-17
+
+### Changed
+
+- Renamed the PyPI distribution from `py-goodreads` to `goodreads-async` after
+  PyPI rejected the original name as too similar to an existing project. The
+  `pygoodreads` import package is unchanged.
+
+## [0.1.0] - 2026-09-17
+
 ### Added
 
 - Initial asynchronous public shelf and reading-progress client.

@@ -25,7 +25,7 @@ from .parsers import (
 BASE_URL: Final = URL("https://www.goodreads.com")
 DEFAULT_TIMEOUT: Final = 15.0
 MAX_RESPONSE_SIZE: Final = 5 * 1024 * 1024
-USER_AGENT: Final = "py-goodreads/0.1.0"
+USER_AGENT: Final = "py-goodreads/0.1.1"
 
 
 class GoodreadsClient:

@@ -26,10 +26,11 @@ out of scope for the first release.
 
 ## Installation
 
-The distribution name is `py-goodreads`; the import package is `pygoodreads`.
+The PyPI distribution name is `goodreads-async`; the import package is
+`pygoodreads`.
 
 ```bash
-python -m pip install py-goodreads
+python -m pip install goodreads-async
 ```
 
 ## Usage
