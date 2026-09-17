@@ -1,0 +1,55 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    needs: ci
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+      - name: Verify tag matches package version
+        run: >-
+          python -c 'import os, tomllib;
+          version = tomllib.load(open("pyproject.toml", "rb"))["project"]["version"];
+          tag = os.environ["GITHUB_REF_NAME"];
+          assert tag == f"v{version}", f"tag {tag!r} does not match version {version!r}"'
+      - run: python -m pip install build==1.6.1
+      - run: python -m build
+      - name: Smoke-test the built wheel
+        run: |
+          python -m venv "${{ runner.temp }}/wheel-smoke"
+          "${{ runner.temp }}/wheel-smoke/bin/python" -m pip install dist/*.whl
+          "${{ runner.temp }}/wheel-smoke/bin/python" -c "import pygoodreads"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: python-distributions
+          path: dist/
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/py-goodreads
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: python-distributions
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
